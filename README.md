@@ -51,6 +51,6 @@ Airgeddon can also be used on other operating systems such as Windows or Mac OSX
 To run attacks against WiFi networks you need to have a WiFi adapter that can do packet injection so most likley the WiFi adapter you have in your laptop or computer won't work. Specifically its the wireless chipset within the adapter that will determine if it can do packet injection or not. A list of compadable cards and chipsets can be found [here](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Cards%20and%20Chipsets).
 I personally have the Alpha AWUS036NHA with the Atheros AR9271 chipset, and the Alpha AWUS036ACM with the MediaTek MT7612U chipset.
 #### Alpha AWUS036NHA
-<img src="https://github.com/svecile/Airgeddon_Notes/blob/main/Alfa%20AWUS036NHA.jpg" alt="AWUS036NHA" width="200"/>
+
 
 
