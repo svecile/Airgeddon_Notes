@@ -38,7 +38,7 @@ As you can see airgeddon has a ton of functionality, wether your auditing your h
 
 First things first, your going to need the proper equiptement in terms of software and hardware.
 
-#### Software
+### Software
 I will be using a [VirtualBox](https://www.virtualbox.org/) version of [Kali Linux](https://www.kali.org/) which can be found [here](https://www.kali.org/get-kali/#kali-virtual-machines). You will also need to [install airgeddon](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Installation%20&%20Usage#generic-installation) onto kali which can be done by entering three simple commands into the terminal.
 `1. git clone https://github.com/v1s1t0r1sh3r3/airgeddon.git`
 `2. cd airgeddon`
@@ -60,7 +60,7 @@ Due to the shortcomings of the previous adapter i decided to get a newer one wit
 
 ---
 ## Network Recon
-Next you are going to need to do some recon and figure out the type of network you are dealing with and what kind of security it has so you can attack it. There are two types personal and enterprise.
+Next you are going to need to do some recon and figure out the type of network you are dealing with and what kind of security it has so you can attack it. To perform wireless recon you will have to put your WiFi adapter in monitor mode which is done by typing 2 on the main airgeddon screen. There are two types of networks you will encounter personal and enterprise.
 
 ### Network Type
 #### Enterprise Network
@@ -72,4 +72,7 @@ This is the type of network we are going to focus on in this presentation. It is
 For demostration pourposes in the presentation i will be using the personal hotspot on my iPhone to create a WiFi network with a weak password (password1234) and i will be connecting my old iphone 6 to it as a dummy user.
 
 ### Network Security
-Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), wifi protected setup (WPS), WiFi protected access (WPA/WPA2), and recently WPA3. WEP is very old, insecure and not really used anymore so i wont be covering it but heres a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new and i havent seen any routers with it yet although im sure they are out there but airgeddon has no attacks for it so i also wont be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols i will focus on.
+Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), wifi protected setup (WPS), WiFi protected access (WPA/WPA2-PSK), and recently WPA3. WEP is very old, insecure and not really used anymore so i wont be covering it but heres a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new and i havent seen any routers with it yet although im sure they are out there but airgeddon has no attacks for it so i also wont be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols i will focus on.
+
+####WPA/WPA2
+This is the type of security you will mostly see in personal networks 
