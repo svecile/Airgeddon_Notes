@@ -78,14 +78,14 @@ Personal WiFi networks can have different kinds of security and authentication m
 This is the type of security you will mostly see in personal networks and is one of the ones we will be attacking. WPA2 came out in 2004 and is an upgrade on the origional WPA that came out in 2003. WPA is an encryption system that allows people to authenticate themselves to a router and then also encrypt each packet flowing to and from the router.
 ##### Handshake attack
 The weakness airgeddon exploits lies in the authentication/encryption protocol called WPA2 pre-shared key (PSK). The protocol uses something called the 4-way handshake to authenticate the user and exchange the information it and the user need to create a shared secret so traffic can be encrypted. Here because of the wireless nature of communications when a user connects to the router for the first time if we put our wifi adapter in monitor mode and just get it to capture all the traffic flowing to the router we can try to capture all the information given away during the unencrypted 4-way handshake. With this information we have everything we need to try to recover the password offline using a dictionary attack or bruteforce. However users dont often have to enter the password to their WiFi network so to force this situation to happen we can flood the router with deauthentication packets to kick users off and since most devices are set up to reconnect automatically this will force the 4-way handshake to happen when we want it to. Below is a diagram of the 4-way handshake and the information that is transmitted by each party.
-                    
-```seq
-Router->User: Router_Nonce
-Note Right of User: User creates the PTK (Pairwise transient key), and sends it's nonce to router so it can create the same PTK
-User-->Router: User_Nonce + MIC (message integrity code) which includes the authentication
-Note Left of Router: Router creates PTK, and verifies it is the same as user by using MIC (indicates correct password)
-Router->User: Sends GTK (group temporal key) (encrypted by PTK) + sequence number + MIC
-User->Router: User Acknowleges keys installed
+```mermaid
+sequenceDiagram
+	Router->>User: Router_Nonce
+	Note Right of User: User creates the PTK<br/> (Pairwise transient key), <br/>and sends it's nonce to router<br/>so it can create the same PTK
+	User->>Router: User_Nonce + MIC (message integrity code)<br/> which includes the authentication
+	Note Left of Router: Router creates PTK, and <br/>verifies it is the same <br/>as user by using MIC<br/>(indicates correct password)
+	Router->>User: Sends GTK (group temporal key) (encrypted by PTK)<br/> + sequence number + MIC
+	User->>Router: User Acknowleges keys installed
 ```
 The pre-shared key is just the hashed WiFi password salted with the SSID and is never sent over the air but rather is just calculated by the router and user individually since they both have everything you need (password and SSID).
 
