@@ -41,9 +41,11 @@ First things first, you’re going to need the proper equipment in terms of soft
 
 ### Software
 I will be using a [VirtualBox](https://www.virtualbox.org/) version of [Kali Linux](https://www.kali.org/) which can be found [here](https://www.kali.org/get-kali/#kali-virtual-machines). You will also need to [install airgeddon](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Installation%20&%20Usage#generic-installation) onto kali which can be done by entering three simple commands into the terminal.
-`1. git clone https://github.com/v1s1t0r1sh3r3/airgeddon.git`
-`2. cd airgeddon`
-`3. sudo bash airgeddon.sh`
+```
+git clone https://github.com/v1s1t0r1sh3r3/airgeddon.git
+cd airgeddon
+sudo bash airgeddon.sh
+```
 Once the third command is run the airgeddon script will start and check if you have all the necessary packages installed and if you don’t it will ask if you want it to install them for you, to which you should say yes.
 
 Airgeddon can also be used on other operating systems such as Windows or Mac OSX using docker and you can find instructions for that setup [here](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Docker). It can also be used in much the same way as with kali on other [compatible Linux distrobutions](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Compatibility).
