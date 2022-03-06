@@ -74,4 +74,35 @@ For demostration pourposes in the presentation i will be using the personal hots
 Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), wifi protected setup (WPS), WiFi protected access (WPA/WPA2-PSK), and recently WPA3. WEP is very old, insecure and not really used anymore so i wont be covering it but heres a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new and i havent seen any routers with it yet although im sure they are out there but airgeddon has no attacks for it so i also wont be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols i will focus on.
 
 #### WPA/WPA2
-This is the type of security you will mostly see in personal networks and is one of the ones we will be attacking. WPA2 came out in 2004 and is an upgrade on the origional WPA that came out in 2003. 
+This is the type of security you will mostly see in personal networks and is one of the ones we will be attacking. WPA2 came out in 2004 and is an upgrade on the origional WPA that came out in 2003. WPA is an encryption system that allows people to authenticate themselves to a router and then also encrypt each packet flowing to and from the router. The weakness airgeddon exploits lies in the authentication/encryption protocol called WPA2 pre-shared key (PSK). The protocol uses something called the 4-way handshake to authenticate the user and exchange the information it and the user need to create a shared secret so traffic can be encrypted. Here because of the wireless nature of communications when a user connects to the router for the first time if we put our wifi adapter in monitor mode and just get it to capture all the traffic flowing to the router we can try to capture all the information given away during the unencrypted 4-way handshake. With this information we have everything we need to try to recover the password offline using a dictionary attack or bruteforce. Below is a diagram of the 4-way handshake and the information that is transmitted by each party.
+                    
+```seq
+Router->User: Router_Nonce
+Note Right of User: User creates the PTK (Pairwise transient key), and sends it's nonce to router so it can create the same PTK
+User-->Router: User_Nonce + MIC (message integrity code) which includes the authentication
+Note Left of Router: Router creates PTK, and verifies it is the same as user by using MIC (indicates correct password)
+Router->User: Sends GTK (group temporal key) (encrypted by PTK) + sequence number + MIC
+User->Router: User Acknowleges keys installed
+```
+The pre-shared key is just the hashed WiFi password salted with the SSID and is never sent over the air but rather is just calculated by the router and user individually since they both have everything you need (password and SSID).
+
+**PSK = Hash_Function(Wi-Fi password + Wi-Fi SSID, Length of SSID + 4096 iterations of SHA1)**
+
+The PSK is not used to encrypt traffic but it is used to derive the pairwise transit key (PTK) which is then used to encrypt all data flowing between the user and the router.
+
+**PTK = PSK + Router_nonce + User_nonce + MAC (router) and MAC (user)**
+
+Now while all of this stuff is happening during the 4-way handshake we are secretly capturing all of it. Now we have the user_nonce, router_nonce, router MAC and user MAC, All we need is the PSK which we cant get without the password. However what we can do is guess a password and create our own PTK then use the MIC to verify if we got it right. So now we will bootstrap that and just try a ton of different passwords until we get the right one. The best part is we dont even need the router now this can be done entirely offline.
+
+#### WPS
+Wifi protected setup is another layer added to routers that was meant to ease authentication by using a button or a small PIN. The WPS attacks section of airgeddon is number 8 on the main menu. From there there are 5 kinds of attacks.
+#####Custom PIN association
+This attack is here so you can create your own custom tables of pins that you would like to try through bruteforce.
+#####Pixie Dust Attack
+This attack is made possible by manufacturers that used bad random number generators to create secret nonces. Knowing the two non-random nonces the attack is able to recover the WPS PIN within a couple of minutes.
+#####Brute Force
+WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight digit numbers and that made them vounerable to bruteforcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be bruteforced in less than a day.
+#####Known PINs database attack
+Some manufactures used security through obscurity and just assumed people wouldnt figure out what algorithm they used to calculate the pins (which are derived from the router MAC address). They were wrong...so a certain list of routers can be accessed by calculating the pin from the MAC address
+#####Null PIN attack
+This one if more rare to find but some really bad WPS router implementations allowed the null pin to connect
