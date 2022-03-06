@@ -115,7 +115,7 @@ The PSK is not used to encrypt traffic, but it is used to derive the pairwise tr
 
 **PTK = PSK + Router_nonce + User_nonce + MAC (router) and MAC (user)**
 
-Now while all of this stuff is happening during the 4-way handshake we are secretly capturing all of it. Now we have the user_nonce, router_nonce, router MAC and user MAC, all we need is the PSK which we cant get without the password. However, what we can do is guess a password and create our own PTK then use the MIC to verify if we got it right. So now we will bootstrap that and just try a ton of different passwords until we get the right one. The best part is we don’t even need the router now this can be done entirely offline.
+Now while all of this stuff is happening during the 4-way handshake we are secretly capturing all of it. Now we have the user_nonce, router_nonce, router MAC and user MAC, all we need is the PSK which we cant get without the password. However, what we can do is guess a password and create our own PTK then use the MIC to verify if we got it right. So now we will bootstrap that and just try a ton of different passwords until we get the right one. The best part is we don’t even need the router now this can be done entirely offline.<sup>[1](#myfootnote1)</sup>
 
 ## 4-Way Handshake Demo
 1. From the main menu type 2 to put network card in monitor mode so we can search for targets
@@ -161,3 +161,6 @@ Another great way to hack into a WiFi network is to trick the user into giving y
 
 ## Additional Resources
 * Since I didnt cover Airgeddon WEP and WPS attacks [here](https://miloserdov.org/?p=459) is a tutorial
+
+## References
+<a name="myfootnote1">1</a>: If you would like to learn more about the 4-way handshake check [here](https://www.cyberpunk.rs/capturing-wpa-wpa2-handshake)
