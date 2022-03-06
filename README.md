@@ -158,3 +158,6 @@ Another great way to hack into a WiFi network is to trick the user into giving y
 	* Now a captive portal screen has appeared asking us to log into the network if i type in the password all the screens close except one and on it you can see the plain text password which is just "password"
 	* The program shuts down and the client is aloud to reconnect to the original WiFi and no one is the wiser
 	* And we are done another WiFi network hacked
+
+## Additional Resources
+* Since I didnt cover Airgeddon WEP and WPS attacks [here](https://miloserdov.org/?p=459) is a tutorial
