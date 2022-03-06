@@ -139,3 +139,15 @@ Another great way to hack into a WiFi network is to trick the user into giving y
 	* Now start the decryption and what it is going to do is check each password in the list against the captured 4-way handshake and if one matches, we’ve got the password
 	* Success we found the password (which is password) very quickly probably because its so common and was near the top of the list
 	* Now you can save the trophy file if you want, and we are all done we hacked the network and you can log onto the WiFi with the password you found
+
+## Evil Twin Attack With captive portal Demo
+1. From the main menu select 7 evil twin attacks menu
+2. Select 9 Evil Twin AP attack with captive portal
+3. For this demo the first steps would be to explore for targets and capture the 4-way handshake which is the same as the last demo so for the sake of time I’m going to skip that since we have already done it
+4. Now it will ask you which language you want the portal in I will select 1 for English
+	* Once I press enter a bunch of screens will pop up the one in the top right is the screen you want to pay attention to this is where any passwords the portal captures will be displayed
+	* The one in the bottom left is deauthenticating the client from our test network and you can see on the iPhone screen it has been removed and any attempt to connect isn’t allowed
+	* Now if we refresh the networks, we can see a new unsecured network called iPhone has appeared and the real iPhone network is being drowned out by our network
+	* Now a captive portal screen has appeared asking us to log into the network if i type in the password all the screens close except one and on it you can see the plain text password which is just "password"
+	* The program shuts down and the client is aloud to reconnect to the original WiFi and no one is the wiser
+	* And we are done another WiFi network hacked
