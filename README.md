@@ -96,13 +96,13 @@ Now while all of this stuff is happening during the 4-way handshake we are secre
 
 #### WPS
 Wifi protected setup is another layer added to routers that was meant to ease authentication by using a button or a small PIN. The WPS attacks section of airgeddon is number 8 on the main menu. From there there are 5 kinds of attacks.
-#####Custom PIN association
+##### Custom PIN association
 This attack is here so you can create your own custom tables of pins that you would like to try through bruteforce.
-#####Pixie Dust Attack
+##### Pixie Dust Attack
 This attack is made possible by manufacturers that used bad random number generators to create secret nonces. Knowing the two non-random nonces the attack is able to recover the WPS PIN within a couple of minutes.
-#####Brute Force
+##### Brute Force
 WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight digit numbers and that made them vounerable to bruteforcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be bruteforced in less than a day.
-#####Known PINs database attack
+##### Known PINs database attack
 Some manufactures used security through obscurity and just assumed people wouldnt figure out what algorithm they used to calculate the pins (which are derived from the router MAC address). They were wrong...so a certain list of routers can be accessed by calculating the pin from the MAC address
-#####Null PIN attack
+##### Null PIN attack
 This one if more rare to find but some really bad WPS router implementations allowed the null pin to connect
