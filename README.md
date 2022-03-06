@@ -61,24 +61,42 @@ Shown here is the Alpha AWUS036NHA USB WiFi adapter with the Atheros AR9271 chip
 <img src="https://github.com/svecile/Airgeddon_Notes/blob/main/Alfa%20AWUS036ACM.jpg" alt="AWUS036ACM" width="200"/>
 Due to the shortcomings of the previous adapter i decided to get a newer one with 2.4 and 5 GHz capabilities and the one I chose was the Alpha AWUS036ACM with MediaTek MT7612U chipset. This adapter is listed as having problems with kali virtual machines in the airgeddon compatibility list, but I didn’t run into those issues, and I read in a couple forums with newer versions of kali it isn’t an issue anymore.  This adapter worked excellent and also, I found had more than adequate range without upgrading the antennas.
 
----
-### Network Recon
+## Network Recon
 Next you are going to need to do some recon and figure out the type of network you are dealing with and what kind of security it has so you can attack it. To perform wireless recon, you will have to put your WiFi adapter in monitor mode which is done by typing 2 on the main airgeddon screen. There are two types of networks you will encounter personal and enterprise.
 
-#### Enterprise Network
+### Enterprise Network
 It will be obvious if you are dealing with an enterprise network because when you click to join the network it will ask you for a username and password. An example of this would be our university WiFi uwosecure-v2. These networks are much larger than your home network and consist of many physical and virtual networks and protocols that connect users and devices to a shared local area network (LAN). Devices on these networks are connected together using ethernet, WiFi, switches and routers so they can share data securely within the network. Airgeddon has enterprise attack functionality which is option 10 on the main menu.
 
-#### Personal Network
+### Personal Network
 This is the type of network we are going to focus on in this presentation. It is the most common type of network and is what your home WiFi would be characterised as. It requires only a password which contrasts with a username and password combination that is needed for enterprise networks. These networks are often comprised of a router and possibly some WiFi extender pods.
 
 For demonstration purposes in the presentation, I will be using the personal hotspot on my iPhone to create a WiFi network with a weak password which is just "password" and I will be connecting my old iPhone 6 to it as a dummy user.
 
-### Network Security
+## Network Security
 Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), WiFi protected setup (WPS), WiFi protected access (WPA/WPA2-PSK), and recently WPA3. WEP is very old, insecure and not really used anymore so I won’t be covering it but here’s a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new, and I haven’t seen any routers with it yet although I’m sure they are out there but airgeddon has no attacks for it so I also won’t be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols I will focus on.
 
-#### WPA/WPA2
+### WPS
+WiFi protected setup is another layer added to routers that was meant to ease authentication by using a button or a small PIN. The WPS attacks section of airgeddon is number 8 on the main menu. From there, there are 5 kinds of attacks.
+
+#### Custom PIN association
+This attack lets you recover the WPA-PSK password if you know the WPS PIN
+
+#### Pixie Dust Attack
+This attack is made possible by manufacturers that used bad random number generators to create secret nonces. Knowing the two non-random nonces the attack is able to recover the WPS PIN within a couple of minutes.
+
+#### Brute Force
+WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight-digit numbers and that made them vulnerable to brute forcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be brute forced in less than a day. However, most router manufactures caught onto this and made most have a timeout after an incorrect pin is guessed which makes this attack not feasible.
+
+#### Known PINs database attack
+Some manufactures used security through obscurity and just assumed people wouldn’t figure out what algorithm they used to calculate the pins (which are derived from the router MAC address). They were wrong...so a certain list of routers can be accessed by calculating the pin from the MAC addres
+
+#### Null PIN attack
+This one is rarer to find but some really bad WPS router implementations allowed the null pin to connect
+
+### WPA/WPA2
 This is the type of security you will mostly see in personal networks and is one of the ones we will be attacking. WPA2 came out in 2004 and is an upgrade on the original WPA that came out in 2003. WPA is an encryption system that allows people to authenticate themselves to a router and then also encrypt each packet flowing to and from the router.
-##### Handshake attack
+
+#### 4-Way Handshake Attack
 The weakness airgeddon exploits lies in the authentication/encryption protocol called WPA2 pre-shared key (PSK). The protocol uses something called the 4-way handshake to authenticate the user and exchange the information it and the user need to create a shared secret so traffic can be encrypted. Here because of the wireless nature of communications when a user connects to the router for the first time if we put our WiFi adapter in monitor mode and just get it to capture all the traffic flowing to the router, we can try to capture all the information given away during the unencrypted 4-way handshake. With this information we have everything we need to try to recover the password offline using a dictionary attack or brute force. However, users don’t often have to enter the password to their WiFi network so to force this situation to happen we can flood the router with deauthentication packets to kick users off and since most devices are set up to reconnect automatically this will force the 4-way handshake to happen when we want it to. Below is a diagram of the 4-way handshake and the information that is transmitted by each party.
 ```mermaid
 sequenceDiagram
@@ -98,22 +116,6 @@ The PSK is not used to encrypt traffic, but it is used to derive the pairwise tr
 **PTK = PSK + Router_nonce + User_nonce + MAC (router) and MAC (user)**
 
 Now while all of this stuff is happening during the 4-way handshake we are secretly capturing all of it. Now we have the user_nonce, router_nonce, router MAC and user MAC, all we need is the PSK which we cant get without the password. However, what we can do is guess a password and create our own PTK then use the MIC to verify if we got it right. So now we will bootstrap that and just try a ton of different passwords until we get the right one. The best part is we don’t even need the router now this can be done entirely offline.
-
-#### WPS
-WiFi protected setup is another layer added to routers that was meant to ease authentication by using a button or a small PIN. The WPS attacks section of airgeddon is number 8 on the main menu. From there, there are 5 kinds of attacks.
-##### Custom PIN association
-This attack lets you recover the WPA-PSK password if you know the WPS PIN
-##### Pixie Dust Attack
-This attack is made possible by manufacturers that used bad random number generators to create secret nonces. Knowing the two non-random nonces the attack is able to recover the WPS PIN within a couple of minutes.
-##### Brute Force
-WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight-digit numbers and that made them vulnerable to brute forcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be brute forced in less than a day. However, most router manufactures caught onto this and made most have a timeout after an incorrect pin is guessed which makes this attack not feasible.
-##### Known PINs database attack
-Some manufactures used security through obscurity and just assumed people wouldn’t figure out what algorithm they used to calculate the pins (which are derived from the router MAC address). They were wrong...so a certain list of routers can be accessed by calculating the pin from the MAC address
-##### Null PIN attack
-This one is rarer to find but some really bad WPS router implementations allowed the null pin to connect
-
-### Evil Twin Attack With captive portal
-Another great way to hack into a WiFi network is to trick the user into giving you the password. This avoids all the messy brute forcing stuff that is done in the handshake attack. An evil twin attack with captive portal involves you doing the same process to initially capture the 4-way handshake and essentially uses this information plus the network information to copy the WiFi network and create an unsecured twin access point of your own. Now the one thing with this attack is you must be very close to the router because once you’ve created your twin you will flood the users with deauth packets on the other router and hope that they will see your access point with the same name but better signal and try to connect. Once they are connected and they try to access the internet one of those portals that u often see in free WiFi areas that ask you to accept terms to connect will pop up. The only difference here is it will ask for a password. This attack relies on the fact that the user gets annoyed with their WiFi constantly dropping and just enters the password to get it working again. This attack can also be made more successful by changing the look of the portal. For example, if they use roger’s internet you could make it look like the roger’s login page to convince them its legit. Once they enter the password it will be checked against the 4-way handshake and if it is correct, congratulations you got the password, and it will be revealed to you in plain letters.
 
 ## 4-Way Handshake Demo
 1. From the main menu type 2 to put network card in monitor mode so we can search for targets
@@ -141,6 +143,9 @@ Another great way to hack into a WiFi network is to trick the user into giving y
 	* Now start the decryption and what it is going to do is check each password in the list against the captured 4-way handshake and if one matches, we’ve got the password
 	* Success we found the password (which is password) very quickly probably because its so common and was near the top of the list
 	* Now you can save the trophy file if you want, and we are all done we hacked the network and you can log onto the WiFi with the password you found
+
+## Evil Twin Attack With captive portal
+Another great way to hack into a WiFi network is to trick the user into giving you the password. This avoids all the messy brute forcing stuff that is done in the handshake attack. An evil twin attack with captive portal involves you doing the same process to initially capture the 4-way handshake and essentially uses this information plus the network information to copy the WiFi network and create an unsecured twin access point of your own. Now the one thing with this attack is you must be very close to the router because once you’ve created your twin you will flood the users with deauth packets on the other router and hope that they will see your access point with the same name but better signal and try to connect. Once they are connected and they try to access the internet one of those portals that u often see in free WiFi areas that ask you to accept terms to connect will pop up. The only difference here is it will ask for a password. This attack relies on the fact that the user gets annoyed with their WiFi constantly dropping and just enters the password to get it working again. This attack can also be made more successful by changing the look of the portal. For example, if they use roger’s internet you could make it look like the roger’s login page to convince them its legit. Once they enter the password it will be checked against the 4-way handshake and if it is correct, congratulations you got the password, and it will be revealed to you in plain letters.
 
 ## Evil Twin Attack With captive portal Demo
 1. From the main menu select 7 evil twin attacks menu
