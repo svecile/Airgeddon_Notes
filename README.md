@@ -62,7 +62,6 @@ Due to the shortcomings of the previous adapter i decided to get a newer one wit
 ## Network Recon
 Next you are going to need to do some recon and figure out the type of network you are dealing with and what kind of security it has so you can attack it. To perform wireless recon you will have to put your WiFi adapter in monitor mode which is done by typing 2 on the main airgeddon screen. There are two types of networks you will encounter personal and enterprise.
 
-### Network Type
 #### Enterprise Network
 It will be obvious if you are dealing with an enterprise network because when you click to join the network it will ask you for a username and password. An example of this would be our university WiFi uwosecure-v2. These networks are much larger than your home network and consist of many physical and virtual networks and protocols that connect users and devices to a shared local area network (LAN). Devices on these networks are connected together using ethernet, WiFi, switches and routers so they can share data securely within the network. Airgeddon has enterprise attack functionality which is option 10 on the main menu.
 
@@ -74,5 +73,5 @@ For demostration pourposes in the presentation i will be using the personal hots
 ### Network Security
 Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), wifi protected setup (WPS), WiFi protected access (WPA/WPA2-PSK), and recently WPA3. WEP is very old, insecure and not really used anymore so i wont be covering it but heres a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new and i havent seen any routers with it yet although im sure they are out there but airgeddon has no attacks for it so i also wont be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols i will focus on.
 
-####WPA/WPA2
-This is the type of security you will mostly see in personal networks 
+#### WPA/WPA2
+This is the type of security you will mostly see in personal networks and is one of the ones we will be attacking. WPA2 came out in 2004 and is an upgrade on the origional WPA that came out in 2003. 
