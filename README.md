@@ -100,11 +100,11 @@ Now while all of this stuff is happening during the 4-way handshake we are secre
 #### WPS
 Wifi protected setup is another layer added to routers that was meant to ease authentication by using a button or a small PIN. The WPS attacks section of airgeddon is number 8 on the main menu. From there there are 5 kinds of attacks.
 ##### Custom PIN association
-This attack is here so you can create your own custom tables of pins that you would like to try through bruteforce.
+This attack lets you recover the WPA-PSK password if you know the WPS PIN
 ##### Pixie Dust Attack
 This attack is made possible by manufacturers that used bad random number generators to create secret nonces. Knowing the two non-random nonces the attack is able to recover the WPS PIN within a couple of minutes.
 ##### Brute Force
-WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight digit numbers and that made them vounerable to bruteforcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be bruteforced in less than a day.
+WPS has a PIN that cannot be changed and is mated to the router forever. There are several problems with this for one the PINs were eight digit numbers and that made them vounerable to bruteforcing. The last digit of the PIN was a checksum so 10^7=10,000,000 possible combinations which could be bruteforced in less than a day. However, most router manufactures cought onto this and made most have a timeout after an incorrect pin is guessed which makes this attack not fesible.
 ##### Known PINs database attack
 Some manufactures used security through obscurity and just assumed people wouldnt figure out what algorithm they used to calculate the pins (which are derived from the router MAC address). They were wrong...so a certain list of routers can be accessed by calculating the pin from the MAC address
 ##### Null PIN attack
@@ -112,3 +112,6 @@ This one if more rare to find but some really bad WPS router implementations all
 
 ### Evil Twin Attack With captive portal
 Another great way to hack into a wifi network is to trick the user into giving you the password. This avoids all the messy brute forcing stuff that is done in the handshake attack. An evil twin attack with captive portal involves you doing the same process to initially capture the 4-way handshake and essentially uses this information plus the network information to copy the WiFi network and create an unsecured twin access point of your own. Now the one thing with this attack is you must be very close to the router because once youve created your twin you will flood the users with deauth packets on the other router and hope that they will see your access point with the same name but better signal and try to connect. Once they are connected and they try to access the internet one of those portals that u often see in free WiFi areas that ask you to accept terms to connect will pop up. The only difference here is it will ask for a password. This attack relies on the fact that the user gets annoyed with their WiFi constantly dropping and just enters the password to get it working again. This attack can also be made more sucessful by changing the look of the portal. For example if they use rogers internet you could make it look like the rogers login page to convince them its legit. Once they enter the password it will be checked against the 4-way handshake and if it is correct, congratulations you got the password and it will be revealed to you in plain letters.
+
+## 4-Way Handshake Demo
+1. 
