@@ -69,7 +69,7 @@ It will be obvious if you are dealing with an enterprise network because when yo
 #### Personal Network
 This is the type of network we are going to focus on in this presentation. It is the most common type of network and is what your home WiFi would be characterised as. It requires only a password which is in contrast to a username and password combination that is needed for enterprise networks. These networks are often comprised of a router and possibly some WiFi extender pods.
 
-For demostration pourposes in the presentation i will be using the personal hotspot on my iPhone to create a WiFi network with a weak password (password1234) and i will be connecting my old iphone 6 to it as a dummy user.
+For demostration pourposes in the presentation i will be using the personal hotspot on my iPhone to create a WiFi network with a weak password which is just "password" and i will be connecting my old iphone 6 to it as a dummy user.
 
 ### Network Security
 Personal WiFi networks can have different kinds of security and authentication mechanisms and which ones it has will change the way you attack it. The different security protocols are wired equivalent privacy (WEP), wifi protected setup (WPS), WiFi protected access (WPA/WPA2-PSK), and recently WPA3. WEP is very old, insecure and not really used anymore so i wont be covering it but heres a [link](https://null-byte.wonderhowto.com/how-to/hack-wi-fi-hunting-down-cracking-wep-networks-0183712/) with more information if you are curious. WPA3 is very new and i havent seen any routers with it yet although im sure they are out there but airgeddon has no attacks for it so i also wont be covering it. Most networks you will come across will be protected by WPA/WPA2 and possibly WPS and these are the protocols i will focus on.
@@ -114,4 +114,28 @@ This one if more rare to find but some really bad WPS router implementations all
 Another great way to hack into a wifi network is to trick the user into giving you the password. This avoids all the messy brute forcing stuff that is done in the handshake attack. An evil twin attack with captive portal involves you doing the same process to initially capture the 4-way handshake and essentially uses this information plus the network information to copy the WiFi network and create an unsecured twin access point of your own. Now the one thing with this attack is you must be very close to the router because once youve created your twin you will flood the users with deauth packets on the other router and hope that they will see your access point with the same name but better signal and try to connect. Once they are connected and they try to access the internet one of those portals that u often see in free WiFi areas that ask you to accept terms to connect will pop up. The only difference here is it will ask for a password. This attack relies on the fact that the user gets annoyed with their WiFi constantly dropping and just enters the password to get it working again. This attack can also be made more sucessful by changing the look of the portal. For example if they use rogers internet you could make it look like the rogers login page to convince them its legit. Once they enter the password it will be checked against the 4-way handshake and if it is correct, congratulations you got the password and it will be revealed to you in plain letters.
 
 ## 4-Way Handshake Demo
-1. 
+1. From the main menu type 2 to put network card in monitor mode so we can search for targets
+2. type 5 for handshake/PMKID tools menu
+3. type 4 to explore for tragets this shouldn't take too long and once u think you've gathered enough intel you can press ctrl+c to end the search
+	* Press enter and it will start to scan for WiFi networks that are protected by WPA/WPA2
+	* You will see several things on the screen that just poped up first youll see a collumn that says PWR that number the closer it is to 0 the closer the WiFi network is to you
+	* You will also see a data column this is important because it shows you that data is being sent from client devices to the router and we need a client to be connected so we can deauthenticate them in the next step to capture the 4-way handshake. However a client can be connected without sending data so its not a must
+	* The CH column stands for channel which is the WiFi channel it is broadcasting on. This will tell you if it is a 2.4GHz Wifi network (channels 1-11) or a 5Ghz wifi network (channels 36-165)
+	* The AUTH is also important as we are looking for channels that have PSK authentication
+4. The next screen is to select the target now the ones highlighted in orage with an asterix next to the number are the ones you want. The colour indicates someone is useing the network so we can deauthenticate them. Youll also only want to pick networks with a name since the PSK is salted with the SSID we need it to do the decryption later so this wont work for hidden networks. Im going to type the number for iphone network since that is our test network.
+5. Now we are going to type 6 to attempt to capture the handshake
+6. These are just different ways to capture the handshake option 2 deauth aureplay is fine but if it doesnt work you can try the others
+	* for the timeout the default of 20 seconds is fine
+	* you can see on the iphone screen that it has been kicked off the wifi and it will try to reconnect automatically
+	* success the handshake has been captured save it to wherever you want
+
+7. Now we are going to type 0 to return to the main menu so we can get to the bruteforce tools
+8. Type 6 for offline WPA/WPA2 decrypt menu
+9. Type 1 since this is a personal network
+10. Now there are a lot of different options here but since we are in a VM we dont have access to the GPU so we are going to select 1 (aircrack) Dictionary attack against Handshake/PMKID capture file
+	* It will ask if you want to use the handshake file you captured this session type yes
+	* Also yes we want to use the same network we have already selected
+	* Now enter the path of the dictionary file you are going to use. I use rockyou which comes with kali linux it has about 14 million common passwords but i would also reccomend filtering out duplicates as there are a lot and that will just waste time.
+	* now start the decription and what it is going to do is check each password in the list against the captured 4-way handshake and if one matches weve got the password
+	* Success we found the password (which is password) very quickly probabaly because its so common and was near the top of the list
+	* now you can save the trophy file if you want and we are all done we powned the network and you can log onto the wifi with the password you found
