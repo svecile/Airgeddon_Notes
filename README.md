@@ -111,7 +111,7 @@ The pre-shared key is just the hashed WiFi password salted with the SSID and is 
 
 **PSK = Hash_Function(Wi-Fi password + Wi-Fi SSID, Length of SSID + 4096 iterations of SHA1)**
 
-The PSK is not used to encrypt traffic, but it is used to derive the pairwise transit key (PTK) which is then used to encrypt all data flowing between the user and the router.
+The PSK is not used to encrypt traffic, but it is used to derive the pairwise transient key (PTK) which is then used to encrypt all data flowing between the user and the router.
 
 **PTK = PSK + Router_nonce + User_nonce + MAC (router) and MAC (user)**
 
